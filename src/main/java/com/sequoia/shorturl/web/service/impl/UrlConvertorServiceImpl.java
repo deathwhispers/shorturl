@@ -1,6 +1,7 @@
 package com.sequoia.shorturl.web.service.impl;
 
 import cn.hutool.bloomfilter.BloomFilter;
+import cn.hutool.core.util.StrUtil;
 import com.sequoia.shorturl.common.ObjectNotExistException;
 import com.sequoia.shorturl.common.server.ShortUrlGenerator;
 import com.sequoia.shorturl.web.repository.UrlConvertorRepository;
@@ -52,9 +53,9 @@ public class UrlConvertorServiceImpl implements IUrlConvertorService {
             }
         }
         // 库中不存在,则保存键值对,并添加到bloomFilter
-        if (convertorRepository.getLongUrlByShortUrl(shortUrl) == null) {
+        if (convertorRepository.getLongUrlByShortUrl(shortUrl).equals(StrUtil.EMPTY)) {
             synchronized (shortUrl.intern()) {
-                if (convertorRepository.getLongUrlByShortUrl(shortUrl) == null) {
+                if (convertorRepository.getLongUrlByShortUrl(shortUrl).equals(StrUtil.EMPTY)) {
                     convertorRepository.save(shortUrl, longUrl);
                     bloomFilter.add(shortUrl);
                     return shortUrl;
@@ -63,7 +64,7 @@ public class UrlConvertorServiceImpl implements IUrlConvertorService {
         }
         // 存在但不相等,说明出现了hash冲突,则在长串后拼接 DUPLICATE再此生成
 
-        shortUrl =ShortUrlGenerator.generate(longUrl);
+        shortUrl = ShortUrlGenerator.generate(longUrl);
 
         return shortUrl;
     }

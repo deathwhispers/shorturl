@@ -1,6 +1,10 @@
 package com.sequoia.shorturl.web.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
 
 /**
  * @Author: yanggj
@@ -10,10 +14,16 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class UrlConvertorRepository {
+    private static final Logger logger = LoggerFactory.getLogger(UrlConvertorRepository.class);
+
+    @Resource
+    private UrlConvertorMapping urlConvertorMapping;
+
     public String getLongUrlByShortUrl(String shortUrl) {
-        return null;
+        return urlConvertorMapping.get(shortUrl);
     }
 
     public void save(String shortUrl, String longUrl) {
+        urlConvertorMapping.put(shortUrl,longUrl);
     }
 }

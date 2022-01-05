@@ -23,7 +23,7 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 @EnableSwaggerBootstrapUI
-public class SwaggerConfig implements WebMvcConfigurer {
+public class SwaggerConfiguration implements WebMvcConfigurer {
 
     @Bean
     public Docket createH5RestApi() {
