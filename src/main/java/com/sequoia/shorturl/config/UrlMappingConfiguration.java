@@ -1,10 +1,11 @@
 package com.sequoia.shorturl.config;
 
 import com.sequoia.shorturl.web.repository.UrlConvertorMapping;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: yanggj
@@ -15,11 +16,15 @@ import javax.annotation.Resource;
 @Configuration
 public class UrlMappingConfiguration {
 
-    @Resource
-    private ScheduleProps scheduleProps;
+    @Value("${url-mapping.ttl:1}")
+    private long ttl;
+    @Value("${url-mapping.period:1}")
+    private long period;
+    @Value("${url-mapping.timeUnit:DAYS}")
+    private TimeUnit timeUnit;
 
     @Bean
     public UrlConvertorMapping getUrlConvertorMapping() {
-        return new UrlConvertorMapping(scheduleProps.getTtl(), scheduleProps.getPeriod(), scheduleProps.getTimeUnit());
+        return new UrlConvertorMapping(ttl, period, timeUnit);
     }
 }

@@ -1,0 +1,12 @@
+spring:
+  mvc:
+    pathmatch:
+      # \u89E3\u51B3swagger\u548Cspringboot\u7248\u672C\u95EE\u9898
+      matching-strategy: ANT_PATH_MATCHER
+filter:
+  bloom:
+    expected-insertions: 20
+
+url-mapping:
+  ttl: 1
+  period: 1

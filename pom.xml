@@ -35,13 +35,6 @@
             <version>3.0.0</version>
         </dependency>
 
-        <!-- 引入swagger-bootstrap-ui包 -->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>swagger-bootstrap-ui</artifactId>
-            <version>1.9.6</version>
-        </dependency>
-
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>

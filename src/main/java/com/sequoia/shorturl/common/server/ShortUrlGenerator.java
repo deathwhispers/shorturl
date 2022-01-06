@@ -1,5 +1,7 @@
 package com.sequoia.shorturl.common.server;
 
+import cn.hutool.core.codec.Base62;
+
 /**
  * @Author: xxx
  * @Description: 短链发号器
@@ -15,8 +17,8 @@ public class ShortUrlGenerator {
      * @return shortUrl
      */
     public static String generate(String longUrl) {
-
-        return null;
+        // 采用默认U8字符集
+        return Base62.encode(longUrl);
     }
 
 }
