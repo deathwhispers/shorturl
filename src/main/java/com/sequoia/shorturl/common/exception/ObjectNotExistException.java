@@ -1,4 +1,4 @@
-package com.sequoia.shorturl.common;
+package com.sequoia.shorturl.common.exception;
 
 /**
  * @Author: yanggj

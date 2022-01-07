@@ -2,7 +2,7 @@ package com.sequoia.shorturl.web.service.impl;
 
 import cn.hutool.bloomfilter.BloomFilter;
 import cn.hutool.core.util.StrUtil;
-import com.sequoia.shorturl.common.ObjectNotExistException;
+import com.sequoia.shorturl.common.exception.ObjectNotExistException;
 import com.sequoia.shorturl.common.server.ShortUrlGenerator;
 import com.sequoia.shorturl.web.repository.UrlConvertorRepository;
 import com.sequoia.shorturl.web.service.IUrlConvertorService;
