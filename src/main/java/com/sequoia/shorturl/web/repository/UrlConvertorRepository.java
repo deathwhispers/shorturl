@@ -4,11 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resource;
-
 /**
  * @Author: yanggj
- * @Description: TODO
+ * @Description: 短链
  * @Date: 2022/1/4 22:48
  * @Version: 1.0.0
  */
@@ -16,8 +14,11 @@ import javax.annotation.Resource;
 public class UrlConvertorRepository {
     private static final Logger logger = LoggerFactory.getLogger(UrlConvertorRepository.class);
 
-    @Resource
-    private UrlConvertorMapping urlConvertorMapping;
+    private final UrlConvertorMapping urlConvertorMapping;
+
+    public UrlConvertorRepository(UrlConvertorMapping urlConvertorMapping) {
+        this.urlConvertorMapping = urlConvertorMapping;
+    }
 
     public String getLongUrlByShortUrl(String shortUrl) {
         return urlConvertorMapping.get(shortUrl);

@@ -1,6 +1,8 @@
 package com.sequoia.shorturl.common.server;
 
-import cn.hutool.core.codec.Base62;
+import cn.hutool.core.lang.hash.MurmurHash;
+import cn.hutool.core.util.HashUtil;
+import com.sequoia.shorturl.common.util.Base62;
 
 /**
  * @Author: xxx
@@ -10,20 +12,6 @@ import cn.hutool.core.codec.Base62;
  */
 public class ShortUrlGenerator {
 
-    public static final String space = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    public static final int spaceLength = space.length();
-
-    public static String encode(Long sequence) {
-        String base62 = "";
-        do {
-            int mod = (int)(sequence % spaceLength);
-            base62 = space.charAt(mod) + base62;
-            sequence = sequence / spaceLength;
-        } while(sequence > 0);
-
-        return base62;
-    }
-
     /**
      * 生成短url
      *
@@ -31,11 +19,9 @@ public class ShortUrlGenerator {
      * @return shortUrl
      */
     public static String generate(String longUrl) {
-        //
-
-
-        // 采用默认U8字符集
-        return Base62.encode(longUrl);
+        String hash32 = Integer.toUnsignedString(MurmurHash.hash32(longUrl));
+        int i = longUrl.hashCode() % (1 << 3);
+        return Base62.encode(Long.parseUnsignedLong(hash32));
     }
 
 }

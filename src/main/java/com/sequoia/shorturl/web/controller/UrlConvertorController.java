@@ -27,18 +27,18 @@ public class UrlConvertorController {
         this.urlConvertorService = urlConvertorService;
     }
 
-    @PostMapping("/to-short-url/{url}")
+    @PostMapping("/to-short-url")
     @ApiOperation("接收长域名,转换为短域名")
-    public ApiResult<String> longUrlToShortUrl(@PathVariable("url") String url) {
-        if (StrUtil.isBlank(url)) {
-            return ApiResult.create(400, "url不能为空", url);
+    public ApiResult<String> longUrlToShortUrl(@RequestParam("longUrl") String longUrl) {
+        if (StrUtil.isBlank(longUrl)) {
+            return ApiResult.create(400, "url不能为空", longUrl);
         }
-        String shortUrl = urlConvertorService.longUrlToShortUrl(url);
+        String shortUrl = urlConvertorService.longUrlToShortUrl(longUrl);
         return ApiResult.ok(shortUrl);
     }
 
     @GetMapping("/{shortUrl}")
-    @ApiOperation("根据短域名,重定向到长域名")
+    @ApiOperation("根据短域名,返回长域名")
     public ApiResult<String> getLongUrlByShortUrl(@PathVariable String shortUrl) {
         String longUrl = urlConvertorService.getLongUrlByShortUrl(shortUrl);
         if (StrUtil.isBlank(longUrl)) {

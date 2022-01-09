@@ -13,9 +13,6 @@ public class ExpireNode<K> {
     // 过期时间(使用时间戳)
     private long expireTime;
 
-    public ExpireNode() {
-    }
-
     public ExpireNode(K key, long expireTime) {
         this.key = key;
         this.expireTime = expireTime;
