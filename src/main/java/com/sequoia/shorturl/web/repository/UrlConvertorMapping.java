@@ -9,21 +9,23 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Author: yanggj
+ * @Author: xxx
  * @Description: 保存url映射关系
  * @Date: 2022/1/5 21:29
  * @Version: 1.0.0
  */
 public class UrlConvertorMapping {
 
+    // key: shortUrl value: ExpireNode(longUrl,ttl)
     private static final Map<String, ExpireNode<String>> URL_MAP = new ConcurrentHashMap<>();
     // 过期时间
     private final long ttl;
+    // 定时处理过期短url
     private static final ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
 
-    public UrlConvertorMapping(long ttl, long delay, TimeUnit timeUnit) {
+    public UrlConvertorMapping(long ttl, long period, TimeUnit timeUnit) {
         this.ttl = ttl;
-        scheduledExecutorService.schedule(new UrlMappingCleanTask(), delay, timeUnit);
+        scheduledExecutorService.scheduleAtFixedRate(new UrlMappingCleanTask(), 0,period, timeUnit);
     }
 
     public String get(String shortUrl) {

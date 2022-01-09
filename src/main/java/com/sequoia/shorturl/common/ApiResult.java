@@ -23,8 +23,8 @@ public class ApiResult<T> {
         return new ApiResult<>(HttpStatus.OK.value(), msg, data);
     }
 
-    public static <T> ApiResult<T> failure(T data) {
-        return new ApiResult<>(HttpStatus.BAD_REQUEST.value(), "failure", data);
+    public static <T> ApiResult<T> failure(String msg) {
+        return new ApiResult<>(HttpStatus.BAD_REQUEST.value(), msg, null);
     }
 
     public static <T> ApiResult<T> create(Integer code, String msg, T data) {

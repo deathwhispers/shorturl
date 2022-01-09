@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Author: yanggj
+ * @Author: xxx
  * @Description: urlMap配置类
  * @Date: 2022/1/5 22:14
  * @Version: 1.0.0

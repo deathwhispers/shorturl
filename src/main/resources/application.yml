@@ -1,7 +1,11 @@
 spring:
+  application:
+    name: shorturl
+  server:
+    port: 11000
   mvc:
     pathmatch:
-      # \u89E3\u51B3swagger\u548Cspringboot\u7248\u672C\u95EE\u9898
+      # 解决swagger冲突
       matching-strategy: ANT_PATH_MATCHER
 filter:
   bloom:

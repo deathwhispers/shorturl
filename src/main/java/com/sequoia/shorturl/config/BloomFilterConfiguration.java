@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Author: yanggj
+ * @Author: xxx
  * @Description: TODO
  * @Date: 2022/1/6 21:47
  * @Version: 1.0.0

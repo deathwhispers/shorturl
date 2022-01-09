@@ -1,7 +1,7 @@
 package com.sequoia.shorturl.web.repository;
 
 /**
- * @Author: yanggj
+ * @Author: xxx
  * @Description:
  * @Date: 2022/1/5 21:37
  * @Version: 1.0.0
@@ -12,9 +12,6 @@ public class ExpireNode<K> {
     private K key;
     // 过期时间(使用时间戳)
     private long expireTime;
-
-    public ExpireNode() {
-    }
 
     public ExpireNode(K key, long expireTime) {
         this.key = key;
