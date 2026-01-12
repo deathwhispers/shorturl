@@ -27,4 +27,14 @@ public class UrlConvertorRepository {
     public void save(String shortUrl, String longUrl) {
         urlConvertorMapping.put(shortUrl,longUrl);
     }
+
+    /**
+     * Saves the mapping if the shortUrl is not already present.
+     * @param shortUrl the short url key
+     * @param longUrl the long url value
+     * @return true if saved, false if already exists
+     */
+    public boolean saveIfAbsent(String shortUrl, String longUrl) {
+        return urlConvertorMapping.putIfAbsent(shortUrl, longUrl);
+    }
 }

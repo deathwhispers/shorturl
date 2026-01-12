@@ -37,9 +37,20 @@ public class UrlConvertorMapping {
     }
 
     public String put(String key, String value) {
-        ExpireNode<String> expireNode = URL_MAP.put(key, new ExpireNode<>(value, System.currentTimeMillis()));
+        ExpireNode<String> expireNode = URL_MAP.put(key, new ExpireNode<>(value, System.currentTimeMillis() + ttl));
         // expireNode为空则返回空串
         return expireNode == null ? StrUtil.EMPTY : expireNode.getKey();
+    }
+
+    /**
+     * If the key is not already associated with a value, associates it with the given value.
+     * @param key key with which the specified value is to be associated
+     * @param value value to be associated with the specified key
+     * @return true if the value was set, false if the key already existed
+     */
+    public boolean putIfAbsent(String key, String value) {
+        ExpireNode<String> result = URL_MAP.putIfAbsent(key, new ExpireNode<>(value, System.currentTimeMillis() + ttl));
+        return result == null;
     }
 
     public int size() {
