@@ -46,25 +46,43 @@ public class UrlConvertorServiceImpl implements IUrlConvertorService {
 
     private String saveUrlMapping(String shortUrl, String longUrl, String conflictUrl) {
         // 在过滤器中查找短url是否存在
-        if (bloomFilter.contains(shortUrl)) {
-            // 存在则直接返回
-            if (longUrl.equals(convertorRepository.getLongUrlByShortUrl(shortUrl))) {
-                return shortUrl;
-            }
+        boolean existsInBloom = bloomFilter.contains(shortUrl);
+        if (existsInBloom) {
+             String existingLongUrl = convertorRepository.getLongUrlByShortUrl(shortUrl);
+             if (longUrl.equals(existingLongUrl)) {
+                 return shortUrl;
+             }
+             // Collision detected (Bloom says yes, but actual value is different or not found)
+             // If existingLongUrl is empty, it might be a false positive from Bloom filter,
+             // so we should attempt to save.
+             if (StrUtil.isEmpty(existingLongUrl)) {
+                 // Try to save
+                 if (convertorRepository.saveIfAbsent(shortUrl, longUrl)) {
+                     bloomFilter.add(shortUrl);
+                     return shortUrl;
+                 } else {
+                     // Check again if we lost the race to the same longUrl
+                     if (longUrl.equals(convertorRepository.getLongUrlByShortUrl(shortUrl))) {
+                         return shortUrl;
+                     }
+                 }
+             }
         } else {
-            // 布隆过滤器中不存在,则保存键值对,并添加到布隆过滤器
-            if (convertorRepository.getLongUrlByShortUrl(shortUrl).equals(StrUtil.EMPTY)) {
-                synchronized (shortUrl.intern()) {
-                    if (convertorRepository.getLongUrlByShortUrl(shortUrl).equals(StrUtil.EMPTY)) {
-                        convertorRepository.save(shortUrl, longUrl);
-                        bloomFilter.add(shortUrl);
-                        return shortUrl;
-                    }
-                }
+            // Not in bloom filter, try to save
+            if (convertorRepository.saveIfAbsent(shortUrl, longUrl)) {
+                bloomFilter.add(shortUrl);
+                return shortUrl;
+            } else {
+                 // Check if we lost the race to the same longUrl
+                 if (longUrl.equals(convertorRepository.getLongUrlByShortUrl(shortUrl))) {
+                     return shortUrl;
+                 }
+                 // If not equal, it means collision or someone else took the spot
             }
         }
-        // 不相等且不为空,说明出现了hash冲突,则在长串后拼接 DUPLICATE 再此生成
-        conflictUrl = longUrl + DUPLICATE;
+
+        // Conflict resolution
+        conflictUrl = conflictUrl + DUPLICATE;
         shortUrl = ShortUrlGenerator.generate(conflictUrl);
         return saveUrlMapping(shortUrl, longUrl, conflictUrl);
     }

@@ -1,7 +1,6 @@
 package com.sequoia.shorturl.common.server;
 
 import cn.hutool.core.lang.hash.MurmurHash;
-import cn.hutool.core.util.HashUtil;
 import com.sequoia.shorturl.common.util.Base62;
 
 /**
@@ -19,9 +18,8 @@ public class ShortUrlGenerator {
      * @return shortUrl
      */
     public static String generate(String longUrl) {
-        String hash32 = Integer.toUnsignedString(MurmurHash.hash32(longUrl));
-        int i = longUrl.hashCode() % (1 << 3);
-        return Base62.encode(Long.parseUnsignedLong(hash32));
+        int hash32 = MurmurHash.hash32(longUrl);
+        return Base62.encode(Integer.toUnsignedLong(hash32));
     }
 
 }
